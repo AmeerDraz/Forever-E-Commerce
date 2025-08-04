@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
-    const { setShowSearch, getCartCount } = useContext(ShopContext);
+    const { setShowSearch, getCartCount, navigate } = useContext(ShopContext);
 
     const [visible, setVisible] = useState(false);
 
@@ -60,7 +60,10 @@ const Navbar = () => {
                             <p className="cursor-pointer hover:text-black">
                                 My Profile
                             </p>
-                            <p className="cursor-pointer hover:text-black">
+                            <p
+                                onClick={() => navigate("/orders")}
+                                className="cursor-pointer hover:text-black"
+                            >
                                 Orders
                             </p>
                             <p className="cursor-pointer hover:text-black">
