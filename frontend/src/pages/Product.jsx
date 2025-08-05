@@ -113,25 +113,22 @@ const Product = () => {
                 </div>
                 <div className="flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500">
                     <p>
-                        Experience the perfect blend of quality, comfort, and
-                        style with our latest collection. Crafted from premium
-                        materials, this product is designed to meet your
-                        everyday needs while keeping you looking sharp. Whether
-                        you're heading to work, going out, or relaxing at home,
-                        it’s the ideal choice for any occasion. Features:
-                        High-quality craftsmanship Sleek, modern design Durable
-                        and long-lasting Easy to clean and maintain Add it to
-                        your cart today and upgrade your daily essentials.
+                        An e-commerce website is an online platform that
+                        facilitates the buying and selling of products or
+                        services over the internet. It serves as a virtual
+                        marketplace where businesses and individuals can
+                        showcase their products, interact with customers, and
+                        conduct transactions without the need for a physical
+                        presence. E-commerce websites have gained immense
+                        popularity due to their convenience, accessibility, and
+                        the global reach they offer.
                     </p>
                     <p>
-                        Discover a world of convenience, quality, and style at
-                        your fingertips. At [Your Store Name], we bring you the
-                        best products from trusted brands across fashion,
-                        electronics, home essentials, beauty, and more — all in
-                        one place. Whether you're shopping for the latest trends
-                        or daily must-haves, our easy-to-use platform, secure
-                        checkout, and fast delivery ensure a seamless online
-                        shopping experience.
+                        E-commerce websites typically display products or
+                        services along with detailed descriptions, images,
+                        prices, and any available variations (e.g., sizes,
+                        colors). Each product usually has its own dedicated page
+                        with relevant information.
                     </p>
                 </div>
             </div>
