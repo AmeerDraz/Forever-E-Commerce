@@ -7,7 +7,7 @@ const Login = () => {
     const onSubmithandler = async (e) => {
         try {
             e.preventDefault();
-            console.log(email, password);
+            
         } catch (error) {}
     };
 
