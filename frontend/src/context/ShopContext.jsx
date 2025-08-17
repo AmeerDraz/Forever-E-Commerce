@@ -36,6 +36,7 @@ const ShopContextProvider = (props) => {
         }
 
         setCartItems(cartData);
+        toast.success("Product added to cart");
     };
 
     const getCartCount = () => {
@@ -81,22 +82,21 @@ const ShopContextProvider = (props) => {
 
     const getProductsData = async () => {
         try {
-            const response = await axios.get(backendUrl + '/api/product/list')
+            const response = await axios.get(backendUrl + "/api/product/list");
             if (response.data.success) {
-                setProducts(response.data.products)
+                setProducts(response.data.products);
             } else {
-                toast.error(response.data.message)
+                toast.error(response.data.message);
             }
-        } catch (error) { 
-            console.log(error)
-            toast.error(error.message)
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
         }
-    }
+    };
 
     useEffect(() => {
-        getProductsData()
-    },[])
-    
+        getProductsData();
+    }, []);
 
     const value = {
         products,
@@ -113,7 +113,7 @@ const ShopContextProvider = (props) => {
         getCartAmount,
         navigate,
         backendUrl,
-        getProductsData
+        getProductsData,
     };
 
     return (
