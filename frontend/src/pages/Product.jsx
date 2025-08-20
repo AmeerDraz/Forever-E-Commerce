@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import RelatedProducts from "../components/RelatedProducts";
+import Loader from "../components/Loader";
 
 
 const Product = () => {
@@ -12,8 +13,10 @@ const Product = () => {
     const [productData, setProductData] = useState(false);
     const [image, setImage] = useState("");
     const [size, setSize] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const fetchProductData = async () => {
+        setLoading(true);
         products.map((item) => {
             if (item._id === productId) {
                 setProductData(item);
@@ -21,14 +24,17 @@ const Product = () => {
                 return null;
             }
         });
+        setLoading(false);
     };
 
     useEffect(() => {
         fetchProductData();
     }, [productId, products]);
 
-
-
+    // عرض Loader فقط أثناء التحميل
+    if (loading) {
+        return <Loader text="Loading product..." />;
+    }
 
     return productData ? (
         <div className="border-t pt-10 transition-opacity ease-in duration-500 opacity-100">

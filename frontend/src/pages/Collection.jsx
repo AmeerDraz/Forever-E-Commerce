@@ -3,6 +3,7 @@ import { ShopContext } from "./../context/ShopContext";
 import { assets } from "../assets/assets";
 import Title from "./../components/Title";
 import ProductItem from "./../components/ProductItem";
+import Loader from "../components/Loader";
 
 const Collection = () => {
     const { products, search, showSearch } = useContext(ShopContext);
@@ -74,11 +75,16 @@ const Collection = () => {
 
     useEffect(() => {
         applyFilter();
-    }, [Category, SubCategory, search , showSearch ,products ]);
+    }, [Category, SubCategory, search, showSearch, products]);
 
     useEffect(() => {
         sortProduct();
     }, [sortType]);
+
+    // Show loader if products are not loaded yet
+    if (!products || products.length === 0) {
+        return <Loader text="Loading products..." />;
+    }
 
     return (
         <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
