@@ -114,7 +114,6 @@ import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
-import Loader from "../components/Loader";
 
 const Cart = () => {
     const { products, currency, cartItems, updateQuantity, navigate } =
@@ -124,6 +123,7 @@ const Cart = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // loader يختفي لما cartData والمنتجات تبقى جاهزة
         if (products.length > 0) {
             setLoading(false);
             const tempData = [];
@@ -139,14 +139,17 @@ const Cart = () => {
                 }
             }
             setCartData(tempData);
-
-            // loader يختفي لما cartData والمنتجات تبقى جاهزة
         }
     }, [cartItems, products]);
 
-    // لو البيانات لسه بتتجهز
+    //  لو البيانات لسه بتتجهز
     if (loading) {
-        return <Loader text="Loading your cart..." />;
+        return (
+            <div className="flex justify-center items-center h-[60vh]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+                <span className="ml-3 text-gray-600">Loading your cart...</span>
+            </div>
+        );
     }
 
     return (
