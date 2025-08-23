@@ -5,24 +5,24 @@ import userModel from "../models/userModel.js";
 
 const PlaceOrder = async (req, res) => {
     try {
-        const { userId, items, amount, adderss } = req.body;
+        const { userId, items, amount, address } = req.body;
         
         const orderData = {
             userId,
             items,
-            adderss,
+            address,
             amount,
-            paymentMethod: 'COD',
+            paymentMethod: "COD",
             payment: false,
-            date: Date.now()
-        }
+            date: Date.now(),
+        };
 
         const newOrder = new orderModel(orderData)
         await newOrder.save()
 
         await userModel.findByIdAndUpdate(userId, { cartData: {} })
         
-        res.json({success:true, message:"Order Places"})
+        res.json({success:true, message:"Order Placed"})
 
     } catch (error) {
         console.log(error)
