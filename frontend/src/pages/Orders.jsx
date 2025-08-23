@@ -2,14 +2,28 @@ import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import Loader from "../components/Loader";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Orders = () => {
-    const { products, currency } = useContext(ShopContext);
+    const { backendUrl, token, currency } = useContext(ShopContext);
 
     // Show loader if products are not loaded yet
     if (!products || products.length === 0) {
         return <Loader text="Loading orders..." />;
     }
+
+    const [orderData, setOrderData] = useState([]);
+
+    const loadOrderData = async () => {
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(()=>{},[token])
 
     return (
         <div className="border-t pt-16">
@@ -18,7 +32,7 @@ const Orders = () => {
             </div>
 
             <div>
-                {products.slice(1, 4).map((item, index) => (
+                {orderData.map((item, index) => (
                     <div
                         key={index}
                         className="py-4 border-t border-b text-gray-700 flex flex-col md:flex-row items-center md:justify-between gap-4"

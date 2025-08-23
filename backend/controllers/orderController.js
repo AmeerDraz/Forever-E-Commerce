@@ -1,5 +1,6 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
+import Orders from './../../admin/src/pages/Orders';
 
 // placing orders using COD Meethod
 
@@ -40,7 +41,19 @@ const PlaceOrderPaypal = async (req, res) => {};
 const allOrders = async (req, res) => {};
 
 // All Orders data for Frontend
-const userOrders = async (req, res) => {};
+const userOrders = async (req, res) => {
+    try {
+        
+
+        const { userId } = req.body;
+        const orders = await orderModel.find({ userId })
+        res.json({success:true, orders})
+
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+    }
+};
 
 // update order status
 const updateStatus = async (req, res) => {};
