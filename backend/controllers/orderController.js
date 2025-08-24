@@ -1,6 +1,6 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
-import Orders from './../../admin/src/pages/Orders';
+// import Orders from './../../admin/src/pages/Orders';
 
 // placing orders using COD Meethod
 
@@ -38,7 +38,9 @@ const PlaceOrderStripe = async (req, res) => {};
 const PlaceOrderPaypal = async (req, res) => {};
 
 // All Orders data for Admin panel
-const allOrders = async (req, res) => {};
+const allOrders = async (req, res) => {
+    
+};
 
 // All Orders data for Frontend
 const userOrders = async (req, res) => {
