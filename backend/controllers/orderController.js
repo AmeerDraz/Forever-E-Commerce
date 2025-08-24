@@ -7,7 +7,7 @@ import userModel from "../models/userModel.js";
 const PlaceOrder = async (req, res) => {
     try {
         const { userId, items, amount, address } = req.body;
-        
+
         const orderData = {
             userId,
             items,
@@ -18,16 +18,15 @@ const PlaceOrder = async (req, res) => {
             date: Date.now(),
         };
 
-        const newOrder = new orderModel(orderData)
-        await newOrder.save()
+        const newOrder = new orderModel(orderData);
+        await newOrder.save();
 
-        await userModel.findByIdAndUpdate(userId, { cartData: {} })
-        
-        res.json({success:true, message:"Order Placed"})
+        await userModel.findByIdAndUpdate(userId, { cartData: {} });
 
+        res.json({ success: true, message: "Order Placed" });
     } catch (error) {
-        console.log(error)
-        res.json({success:false,message:error.message})
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 };
 // placing orders using Stripe Meethod
@@ -40,8 +39,8 @@ const PlaceOrderPaypal = async (req, res) => {};
 // All Orders data for Admin panel
 const allOrders = async (req, res) => {
     try {
-        const orders = await orderModel.find({})
-        res.json({success:true, orders})
+        const orders = await orderModel.find({});
+        res.json({ success: true, orders });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
@@ -51,20 +50,26 @@ const allOrders = async (req, res) => {
 // All Orders data for Frontend
 const userOrders = async (req, res) => {
     try {
-        
-
         const { userId } = req.body;
-        const orders = await orderModel.find({ userId })
-        res.json({success:true, orders})
-
+        const orders = await orderModel.find({ userId });
+        res.json({ success: true, orders });
     } catch (error) {
-        console.log(error)
-        res.json({success:false, message:error.message})
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 };
 
 // update order status
-const updateStatus = async (req, res) => {};
+const updateStatus = async (req, res) => {
+    try {
+        const { orderId, status } = req.body;
+        await orderModel.findByIdAndUpdate(orderId, { status });
+        res.json({ success: true, message: "Status Updated" });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
 
 export {
     PlaceOrder,
