@@ -227,7 +227,12 @@ const PlaceOrder = () => {
                             />
                         </div>
                         <div
-                            onClick={() => setMethod("paypal")}
+                            onClick={() => {
+                                // setMethod("paypal"),
+                                    toast.info(
+                                        "PayPal payment gateway will be available soon!"
+                                    );
+                            }}
                             className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
                         >
                             <p
