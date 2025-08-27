@@ -93,6 +93,11 @@ const PlaceOrder = () => {
 
                     break;
                 }
+                case "paypal": {
+                    
+
+                    break;
+                }
 
                 default:
                     break;
