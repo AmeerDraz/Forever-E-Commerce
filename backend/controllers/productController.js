@@ -1,7 +1,8 @@
+
 import { v2 as cloudinary } from "cloudinary";
 import productModel from "../models/productModel.js";
 
-// function for add product
+// إضافة منتج جديد
 const addProduct = async (req, res) => {
     try {
         const {
@@ -23,46 +24,29 @@ const addProduct = async (req, res) => {
             (item) => item !== undefined
         );
 
-        let imagesUrl = await Promise.all(
+        const imagesUrl = await Promise.all(
             images.map(async (image) => {
-                let result = await cloudinary.uploader.upload(image.path, {
+                const result = await cloudinary.uploader.upload(image.path, {
                     resource_type: "image",
                 });
                 return result.secure_url;
             })
         );
 
-        // console.log(
-        //     name,
-        //     description,
-        //     price,
-        //     category,
-        //     subCategory,
-        //     sizes,
-        //     bestseller
-        // );
-        // console.log(imagesUrl);
-
-        // to save the product data in the mongo database
-
         const productData = {
             name,
             description,
-            price: Number(price), // converting price to number
+            price: Number(price),
             category,
             subCategory,
-            bestseller: bestseller === "true" ? true : false, // converting bestseller to boolean
-            sizes: JSON.parse(sizes), //
+            bestseller: bestseller === "true",
+            sizes: JSON.parse(sizes),
             images: imagesUrl,
             date: Date.now(),
         };
 
-        console.log(productData);
-        console.log("Uploaded image URLs:", imagesUrl);
-        console.log("req.files", req.files);
-
         const product = new productModel(productData);
-        await product.save(); // saving the product in the database
+        await product.save();
 
         res.json({
             success: true,
@@ -75,7 +59,7 @@ const addProduct = async (req, res) => {
     }
 };
 
-// function for list products
+// جلب كل المنتجات
 const listProducts = async (req, res) => {
     try {
         const products = await productModel.find({});
@@ -86,7 +70,7 @@ const listProducts = async (req, res) => {
     }
 };
 
-// function for removing product
+// حذف منتج
 const removeProduct = async (req, res) => {
     try {
         await productModel.findByIdAndDelete(req.body.id);
@@ -97,18 +81,106 @@ const removeProduct = async (req, res) => {
     }
 };
 
-// function for single product info
+// جلب منتج مفرد مع التقييمات ومتوسط التقييم
 const singleProduct = async (req, res) => {
     try {
         const { productId } = req.body;
         const product = await productModel.findById(productId);
-        res.json({ success: true, product });
-        
+
+        if (!product)
+            return res
+                .status(404)
+                .json({ success: false, message: "Product not found" });
+
+        const avgRating =
+            product.reviews.length > 0
+                ? product.reviews.reduce((sum, r) => sum + r.rating, 0) /
+                  product.reviews.length
+                : 0;
+
+        res.json({
+            success: true,
+            product,
+            avgRating,
+            reviews: product.reviews,
+        });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
     }
-
 };
 
-export { addProduct, listProducts, removeProduct, singleProduct };
+// const addReviewToProduct = async (req, res) => {
+//     try {
+//         const { productId, rating, comment } = req.body;
+//         console.log('amm',req.user)
+//         const userId = req.user._id;
+
+
+//         const product = await productModel.findById(productId);
+//         if (!product)
+//             return res
+//                 .status(404)
+//                 .json({ success: false, message: "Product not found" });
+
+//         // إضافة التقييم داخل المصفوفة
+//         product.reviews.push({ user: userId, rating, comment });
+//         await product.save();
+
+//         // حساب متوسط التقييم
+//         const avgRating =
+//             product.reviews.length > 0
+//                 ? product.reviews.reduce((sum, r) => sum + r.rating, 0) /
+//                   product.reviews.length
+//                 : 0;
+
+//         res.status(201).json({
+//             success: true,
+//             reviews: product.reviews,
+//             avgRating,
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.status(400).json({ success: false, message: error.message });
+//     }
+// };
+
+const addReviewToProduct = async (req, res) => {
+    try {
+        const { productId, rating, comment, userId } = req.body; // استخدم userId من req.body
+
+        const product = await productModel.findById(productId);
+        if (!product)
+            return res
+                .status(404)
+                .json({ success: false, message: "Product not found" });
+
+        // إضافة التقييم
+        product.reviews.push({ user: userId, rating, comment });
+        await product.save();
+
+        const avgRating =
+            product.reviews.length > 0
+                ? product.reviews.reduce((sum, r) => sum + r.rating, 0) /
+                  product.reviews.length
+                : 0;
+
+        res.status(201).json({
+            success: true,
+            reviews: product.reviews,
+            avgRating,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+
+export {
+    addProduct,
+    listProducts,
+    removeProduct,
+    singleProduct,
+    addReviewToProduct,
+};

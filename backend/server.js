@@ -1,3 +1,6 @@
+
+
+
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
@@ -9,7 +12,6 @@ import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 // App Config
-
 const app = express();
 const port = process.env.PORT || 4000;
 connectDB();
@@ -21,10 +23,11 @@ app.use(cors());
 
 // api endpoints
 app.use("/api/user", userRouter);
-app.use("/api/product", productRouter);
+app.use("/api/product", productRouter); // هنا التعامل مع كل المنتجات + التقييمات
 app.use("/api/cart", cartRouter);
-app.use('/api/order', orderRouter)
+app.use("/api/order", orderRouter);
 
+// اختبار السيرفر
 app.get("/", (req, res) => {
     res.send("API Working");
 });
